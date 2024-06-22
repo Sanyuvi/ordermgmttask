@@ -1,0 +1,106 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3">
+            <app-sidebar></app-sidebar>
+        </div>
+        <div class="col-md-9">
+            <!-- Edit Order Section -->
+            <div class="mb-4">
+                <h2>Edit Order</h2>
+                <form>
+                    <div class="row mb-3 mt-5">
+                        <label for="orderId" class="col-md-2 col-form-label">
+                            Order ID
+                        </label>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" id="orderId"  readonly />
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="orderDate" class="col-md-2 col-form-label">
+                            Order Date
+                        </label>
+                        <div class="col-md-4">
+                            <input type="date" class="form-control" id="orderDate"  readonly />
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="customerName" class="col-md-2 col-form-label">
+                            Customer Name
+                        </label>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" id="customerName"  readonly />
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- Item Section -->
+            <div class="mb-4">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h2>Edit Order </h2> 
+                    <button class="btn btn-light" >Add Item</button>
+                </div>
+                <table class="table">
+                    <!-- Table Header -->
+                    <thead>
+                        <tr>
+                            <th>Item Name</th>
+                            <th>Unit Price</th>
+                            <th>Quantity</th>
+                            <th>Amount</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <!-- Table Body -->
+                    <!-- <tbody>
+                        <tr *ngFor="let item of items; let index = index">
+                            <td>
+                                <input type="text" class="form-control" [value]="item.itemName"
+                                    (input)="handleInputChange(index, 'itemName', $event.target.value)" />
+                            </td>
+                            <td>
+                                <input type="number" class="form-control" [value]="item.unitPrice"
+                                    (input)="handleInputChange(index, 'unitPrice', $event.target.value)" />
+                            </td>
+                            <td>
+                                <input type="number" class="form-control" [value]="item.quantity"
+                                    (input)="handleInputChange(index, 'quantity', $event.target.value)" />
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" [value]="item.amount" readonly />
+                            </td>
+                            <td>
+                                <button class="btn btn-danger" >
+                                    <fa-icon [icon]="faTrashAlt"></fa-icon>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody> -->
+                </table>
+                <!-- Total Amount -->
+                <div class="mb-4 row">
+                    <div class="col-md-7"></div>
+                    <!-- Empty column to push the label and input field to the right -->
+                    <label class="col-md-2 col-form-label text-end">Total Amount:</label>
+                    <div class="col-md-2">
+                        <input type="text" class="form-control"  readonly />
+                    </div>
+                </div>
+                <!-- Save and Cancel Buttons -->
+                <div class="mb-4 d-flex justify-content-center mt-4 ml-5">
+                    <button class="btn btn-light me-2" >Save</button>
+                    <button class="btn btn-dark ml-5" >Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- (click)="handleSaveOrder()
+(click)="handleCancelOrder()"
+[value]="calculateTotalAmount()"
+(click)="handleDeleteItem(index)"
+(click)="handleAddItem()" 
+[value]="orderId"
+ <h2>Edit Order - {{ orderId }}</h2> 
+-->
