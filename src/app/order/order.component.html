@@ -23,31 +23,37 @@
                                 <th>Actions</th>
                             </tr>
                         </thead>
-                        <!-- <tbody>
-                            {orders && orders.length > 0 ? (
-                            orders.map((order) => (
-                            <tr key={order.id}>
-                                <td>{order.orderId}</td>
-                                <td>{format(new Date(order.orderDate), "dd-MM-yyyy")}</td>
-                                <td>{order.customerName}</td>
-                                <td>{order.amount}</td>
-                                <td>
-                                    <FontAwesomeIcon icon={faEdit} class=" me-2" 
-                                        />
-                                        <FontAwesomeIcon icon={faTrashAlt} class=" me-2" 
-                                            />
-                                </td>
-                            </tr>
-                            ))
-                            ) : (
+                        <tbody>
+                        <ng-container *ngIf="orders && orders.length > 0; else noOrders">
+                        <tr *ngFor="let order of orders">
+                            <td>{{ order.orderId }}</td>                            
+                            <td>{{ order.orderDate | date: 'dd-MM-yyyy' }}</td>
+                            <td>{{ order.customerName }}</td>
+                            <td>{{ order.amount }}</td>
+                            <td>
+                                <button mat-icon-button color="accent" >
+                                    <mat-icon>edit</mat-icon>
+                                </button>
+                                <button mat-icon-button color="warn" >
+                                    <mat-icon>delete</mat-icon>
+                                </button>
+                            </td>
+                        </tr>
+                        </ng-container>
+                        
+                        <ng-template #noOrders>
                             <tr>
                                 <td colSpan="5">No orders available</td>
                             </tr>
-                            )}
-                        </tbody> -->
+                        </ng-template>
+                        </tbody>
                     </table>
                 </div>
             </div>
         </div>
+        
     </div>
 </div>
+
+<!-- (click)="editOrder(order.id)"
+(click)="deleteOrder(order.id)" -->
