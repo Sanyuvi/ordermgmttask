@@ -5,6 +5,6 @@ import { EditOrderComponentComponent } from './edit-order-component/edit-order-c
 
 export const routes: Routes = [
     { path: '', component: OrderComponent },
-    { path: 'add', component: AddOrderComponentComponent },
-    { path: 'edit', component: EditOrderComponentComponent },    
+    { path: 'neworder', component: AddOrderComponentComponent },
+    { path: 'editorder/:id', component: EditOrderComponentComponent },
 ];

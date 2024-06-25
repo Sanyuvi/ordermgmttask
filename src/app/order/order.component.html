@@ -6,7 +6,7 @@
         <div class="col-md-9">
             <div class="orders-heading-container">
                 <h1 class="orders-heading">Orders</h1>
-                <button routerLink="/add" class="btn btn-secondary"  
+                <button (click)="handleClick()" class="btn btn-secondary"
                     >
                     New Order
                 </button>
@@ -26,21 +26,21 @@
                         <tbody>
                         <ng-container *ngIf="orders && orders.length > 0; else noOrders">
                         <tr *ngFor="let order of orders">
-                            <td>{{ order.orderId }}</td>                            
+                            <td>{{ order.orderId }}</td>
                             <td>{{ order.orderDate | date: 'dd-MM-yyyy' }}</td>
                             <td>{{ order.customerName }}</td>
                             <td>{{ order.amount }}</td>
                             <td>
-                                <button mat-icon-button color="accent" >
+                                <button mat-icon-button color="accent" (click)="editOrder(order._id)" >
                                     <mat-icon>edit</mat-icon>
                                 </button>
-                                <button mat-icon-button color="warn" >
+                                <button mat-icon-button color="warn" (click)="deleteOrders(order._id)">
                                     <mat-icon>delete</mat-icon>
                                 </button>
                             </td>
                         </tr>
                         </ng-container>
-                        
+
                         <ng-template #noOrders>
                             <tr>
                                 <td colSpan="5">No orders available</td>
@@ -51,9 +51,9 @@
                 </div>
             </div>
         </div>
-        
+
     </div>
 </div>
 
 <!-- (click)="editOrder(order.id)"
-(click)="deleteOrder(order.id)" -->
+ -->

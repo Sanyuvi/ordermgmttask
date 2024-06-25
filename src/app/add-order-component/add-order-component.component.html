@@ -5,15 +5,15 @@
         </div>
         <div class="col-md-9">
             <!-- New Order Section -->
-            <div class="mb-4">
+
                 <h2>New Order</h2>
-                <form>
+                <form (ngSubmit)="saveOrder()" class="mb-4">
                     <div class="row mb-3 mt-5">
                         <label for="orderId" class="col-md-2 col-form-label">
                             Order ID
                         </label>
                         <div class="col-md-4">
-                            <input type="text" class="form-control" id="orderId" />
+                          <input type="text" id="orderId" [(ngModel)]="newOrder.orderId" name="orderId" class="form-control">
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -21,7 +21,7 @@
                             Order Date
                         </label>
                         <div class="col-md-4">
-                            <input type="date" class="form-control" id="orderDate" />
+                          <input type="date" id="orderDate" [(ngModel)]="newOrder.orderDate" name="orderDate" class="form-control">
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -29,17 +29,15 @@
                             Customer Name
                         </label>
                         <div class="col-md-4">
-                            <input type="text" class="form-control" id="customerName" />
+                          <input type="text" id="customerName" [(ngModel)]="newOrder.customerName" name="customerName" class="form-control">
+
                         </div>
                     </div>
-                </form>
-            </div>
-
             <!-- Item Section -->
             <div class="mb-4">
                 <div class="d-flex justify-content-between align-items-center">
                     <h2>Item</h2>
-                    <button class="btn btn-light">Add Item</button>
+                    <button class="btn btn-light" (click)="addItem()">Add Item</button>
                 </div>
                 <table class="table">
                     <thead>
@@ -52,45 +50,37 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- Example of a row - Repeat this block for each item -->
-                        <!--
-                        <tr *ngFor="let item of items; let index = index">
-                            <td>
-                                <input type="text" class="form-control" [(ngModel)]="item.itemName" />
-                            </td>
-                            <td>
-                                <input type="number" class="form-control" [(ngModel)]="item.unitPrice" />
-                            </td>
-                            <td>
-                                <input type="number" class="form-control" [(ngModel)]="item.quantity" />
-                            </td>
-                            <td>
-                                <input type="text" class="form-control" [(ngModel)]="item.amount" readonly />
-                            </td>
-                            <td>
-                                <button class="btn btn-danger" (click)="deleteItem(index)">Delete</button>
-                            </td>
-                        </tr>
-                        -->
+                      <tr *ngFor="let item of newOrder.items; let i = index">
+                        <td><input type="text" [(ngModel)]="item.itemName" name="itemName{{i}}" class="form-control"></td>
+                        <td><input type="number" [(ngModel)]="item.unitPrice" name="unitPrice{{i}}" (input)="calculateAmount(item)" class="form-control"></td>
+                        <td><input type="number" [(ngModel)]="item.quantity" name="quantity{{i}}" (input)="calculateAmount(item)" class="form-control"></td>
+                        <td><input type="number" [(ngModel)]="item.amount" name="amount{{i}}" class="form-control" readonly></td>
+                        <td>
+                          <button type="button" (click)="removeItem(i)" mat-icon-button color="warn">
+                            <mat-icon>delete</mat-icon>
+                          </button>
+                        </td>
+                      </tr>
                     </tbody>
                 </table>
             </div>
 
             <!-- Total Amount -->
             <div class="mb-4 row">
-                <div class="col-md-7"></div> <!-- Empty column to push the label and input field to the right -->
+                <div class="col-md-7"></div>
                 <label class="col-md-2 col-form-label text-end">
-                    Total Amount:
+                  Total Amount:
                 </label>
                 <div class="col-md-2">
-                    <input type="text" class="form-control" readonly />
+                    <input type="text" [value]="calculateTotalAmount()" class="form-control" readonly />
                 </div>
             </div>
             <!-- Save and Cancel Buttons -->
             <div class="mb-4 d-flex justify-content-center mt-4 ml-5">
-                <button class="btn btn-light me-2">Save</button>
-                <button class="btn btn-dark ml-5">Cancel</button>
+                <button type="submit" class="btn btn-light me-2">Save</button>
+                <button type="button"class="btn btn-dark ml-5" (click)="cancel()">Cancel</button>
             </div>
+                </form>
         </div>
     </div>
-</div>
+</div> -->
