@@ -16,4 +16,7 @@ export class SidebarComponent {
   clickItem(){
     this.router.navigate(['/items']);
   }
+  clickOrders(){
+    this.router.navigate(['/']);
+  }
 }
