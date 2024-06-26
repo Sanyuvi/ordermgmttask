@@ -32,12 +32,16 @@ export class ItemComponent {
 
   }
 
-  editItem(){
-
+  clickEditItem(){
+    this.router.navigate(['/updateitem']);
   }
 
   deleteItem(){
 
+  }
+
+  clickCreate(){
+    this.router.navigate(['/createitem']);
   }
 }
 

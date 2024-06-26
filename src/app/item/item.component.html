@@ -6,7 +6,7 @@
       <div class="col-md-9">
           <div class="items-heading-container">
               <h1 class="items-heading">Items</h1>
-              <button class="btn btn-secondary "
+              <button class="btn btn-secondary " (click)="clickCreate()"
                   >
                   Add Item
               </button>
@@ -31,7 +31,7 @@
               <td>{{ item.price }}</td>
               <td>{{ item.image }}</td>
               <td>
-                  <button mat-icon-button color="accent" (click)="editItem()" >
+                  <button mat-icon-button color="accent" (click)="clickEditItem()" >
                       <mat-icon>edit</mat-icon>
                   </button>
                   <button mat-icon-button color="warn" (click)="deleteItem()">
