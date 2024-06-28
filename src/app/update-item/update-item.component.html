@@ -1,4 +1,4 @@
-<div class="form-area">
+<!-- <div class="form-area">
   <div class="container">
     <div class="row g-2">
       <div class="col-lg-6">
@@ -38,6 +38,46 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
 
+<div class="form-area">
+  <div class="container">
+    <div class="row g-2">
+      <div class="col-lg-6">
+        <figure class="figure">
+          <img src="{{imagePreview}}" class="figure-img img-fluid rounded" style="width: 400px; height: 300px" alt="...">
+        </figure>
+      </div>
+      <div class="col-lg-6">
+        <form [formGroup]="itemForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
+          <div class="mb-3">
+            <label for="itemName" class="form-label">Item name</label>
+            <input type="text" formControlName="itemName" class="form-control" id="itemName">
+          </div>
+          <div class="mb-3">
+            <label for="category" class="form-label">Category</label>
+            <select formControlName="category" class="form-select" aria-label="select category">
+              <option value="Electronics">Electronics</option>
+              <option value="Appliances">Appliances</option>
+              <option value="Cosmetics">Cosmetics</option>
+              <option value="Foods">Foods</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="price" class="form-label">Price</label>
+            <input type="text" formControlName="price" class="form-control" id="price">
+          </div>
+          <div class="mb-3">
+            <label for="formFile" class="form-label">Upload Image</label>
+            <input class="form-control" type="file" id="formFile" (change)="onFileSelected($event)">
+          </div>
+          <div class="mb-3">
+            <button type="submit" class="btn btn-primary me-2">Save</button>
+            <button type="button" class="btn btn-secondary" (click)="clickCancel()">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 

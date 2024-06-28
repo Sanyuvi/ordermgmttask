@@ -3,36 +3,36 @@
     <div class="row g-2">
       <div class="col-lg-6">
         <figure class="figure">
-          <img src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(45).webp" class="figure-img img-fluid rounded" alt="...">
+          <img [src]="previewUrl || 'https://static.vecteezy.com/system/resources/previews/004/640/699/non_2x/circle-upload-icon-button-isolated-on-white-background-vector.jpg'" class="figure-img img-fluid rounded" style="width: 400px; height: 300px" alt="Preview">
         </figure>
       </div>
       <div class="col-lg-6">
-        <form action="">
+        <form [formGroup]="itemForm" (ngSubmit)="onSubmit()">
           <div class="mb-3">
-            <label for="exampleFormControlInput1" class="form-label">Item name</label>
-            <input type="text" class="form-control" id="exampleFormControlInput1">
+            <label for="itemName" class="form-label">Item name</label>
+            <input type="text" formControlName="itemName" class="form-control" id="itemName">
           </div>
           <div class="mb-3">
-            <label for="exampleFormControlInput1" class="form-label">Category</label>
-            <select class="form-select" aria-label="select category">
-              <option selected>Open this select menu</option>
-              <option value="1">Electronics</option>
-              <option value="2">Appliances</option>
-              <option value="3">Cosmetics</option>
-              <option value="4">Foods</option>
+            <label for="category" class="form-label">Category</label>
+            <select formControlName="category" class="form-select" id="category">
+              <option selected>Select category</option>
+              <option value="Electronics">Electronics</option>
+              <option value="Appliances">Appliances</option>
+              <option value="Cosmetics">Cosmetics</option>
+              <option value="Foods">Foods</option>
             </select>
           </div>
           <div class="mb-3">
-            <label for="exampleFormControlInput1" class="form-label">Price</label>
-            <input type="text" class="form-control" id="exampleFormControlInput1">
+            <label for="price" class="form-label">Price</label>
+            <input type="text" formControlName="price" class="form-control" id="price">
           </div>
           <div class="mb-3">
             <label for="formFile" class="form-label">Upload Image</label>
-            <input class="form-control" type="file" id="formFile">
+            <input class="form-control" type="file" id="formFile" (change)="onFileSelected($event)">
           </div>
-          <div class="mb-3 ">
-            <button type="button" class="btn btn-primary me-2">Save</button>
-            <button type="button" class="btn btn-secondary">Cancel</button>
+          <div class="mb-3">
+            <button type="submit" class="btn btn-primary me-2">Save</button>
+            <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancel</button>
           </div>
         </form>
       </div>

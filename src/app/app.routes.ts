@@ -12,5 +12,5 @@ export const routes: Routes = [
     { path: 'editorder/:id', component: EditOrderComponentComponent },
     { path: 'items', component: ItemComponent },
     { path: 'createitem', component:CreateItemComponent },
-    { path: 'updateitem', component:UpdateItemComponent },
+    { path: 'updateitem/:id', component:UpdateItemComponent },
 ];

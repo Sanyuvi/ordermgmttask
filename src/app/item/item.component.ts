@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
@@ -14,40 +14,55 @@ import { Router } from '@angular/router';
   templateUrl: './item.component.html',
   styleUrl: './item.component.css'
 })
-export class ItemComponent {
-  items: Items [] = [
-    {
-    itemName:"Mouse",
-    category:"Electronics",
-    price:450,
-    image:"Mouse img"
-  },{
-    itemName:"Mouse",
-    category:"Electronics",
-    price:450,
-    image:"Mouse img"
-
-  }];
+export class ItemComponent implements OnInit {
+  items: Items [] = [];
   constructor(private http:HttpClient,private router: Router) {
 
   }
 
-  clickEditItem(){
-    this.router.navigate(['/updateitem']);
+  ngOnInit() {
+    this.getItems().subscribe((response) => {
+      this.items = response;
+      console.log(response);
+    })
   }
 
-  deleteItem(){
-
+  clickEditItem(id: String): void{
+    this.router.navigate([`/updateitem/${id}`]);
   }
+
+  getItems(){
+return this.http.get<Items[]>('http://localhost:8087/api/items')
+  }
+
+  deleteItem(id: string): void {
+    if (confirm('Are you sure you want to delete this item?')) {
+      this.http.delete(`http://localhost:8087/api/items/deleteitem/${id}`).subscribe({
+        next: (response) => {
+          this.items = this.items.filter((item) => item._id !== id);
+          alert('Item deleted successfully');
+        },
+        error: (error) => {
+          console.error('Error deleting item', error);
+          alert('Error deleting item: ' + error.message);
+        }
+      }
+      );
+    }
+  }
+
 
   clickCreate(){
+
     this.router.navigate(['/createitem']);
   }
 }
 
 class Items {
+  _id! : string
   itemName! : string
   category!: string;
   price!: number;
-  image!: string;
+  image: string | ArrayBuffer | null = null;
+  thumbnail: string | ArrayBuffer | null = null;
 }
