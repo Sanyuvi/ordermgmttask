@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -7,7 +7,11 @@ import { Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
-
+interface Item {
+  _id: string;
+  itemName: string;
+  price: number;
+}
 
 interface Order {
   orderId: string;
@@ -30,24 +34,59 @@ interface OrderItem {
   templateUrl: './add-order-component.component.html',
   styleUrl: './add-order-component.component.css'
 })
-export class AddOrderComponentComponent {
+export class AddOrderComponentComponent implements OnInit {
    newOrder: Order = {
      orderId: '',
      orderDate: new Date(),
      customerName: '',
      items: []
-   };
-
-   orders: Order[] = [];
+  };
+  
+  items: Item[] = [];
+  
+  orders: Order[] = [];
+  baseUrl: string = 'http://localhost:8087'; // Base URL for the backend
    constructor(private http: HttpClient, private router: Router) { }
 
-   addItem(): void {
-    if (this.newOrder.items.length < 5) {
-      this.newOrder.items.push({ itemName: '', unitPrice: 0, quantity: 0 });
-    } else {
-      alert('Cannot add more than 5 items.');
-    }
+   ngOnInit(): void {
+    this.fetchItems();
   }
+
+  fetchItems(): void {
+    this.http.get<Item[]>(`${this.baseUrl}/api/items`).subscribe({
+      next: (response) => {
+        this.items = response;
+      },
+      error: (error) => {
+        console.error('Error fetching items:', error);
+      }
+    });
+  }
+
+  addItem(event: Event, itemId: string): void {
+    event.preventDefault();
+  if (this.newOrder.items.length < 5) {
+    const selectedItem = this.items.find(item => item._id === itemId);
+
+    if (selectedItem) {
+      const existingItem = this.newOrder.items.find(item => item.itemName === selectedItem.itemName);
+
+      if (existingItem) {
+        existingItem.quantity += 1;
+        this.calculateAmount(existingItem);
+      } else {
+        this.newOrder.items.push({
+          itemName: selectedItem.itemName,
+          unitPrice: selectedItem.price,
+          quantity: 1
+        });
+      }
+    }
+  } else {
+    alert('Cannot add more than 5 items.');
+  }
+}
+
 
    removeItem(index: number): void {
      this.newOrder.items.splice(index, 1);

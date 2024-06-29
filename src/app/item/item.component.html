@@ -11,9 +11,9 @@
                   Add Item
               </button>
           </div>
-<div class="item-list-container">
+<div class="item-list-container ">
   <div class="container">
-      <table class="table bg-light">
+      <table class="table bg-light ">
           <thead>
               <tr>
                   <th>Item name</th>
@@ -29,7 +29,7 @@
               <td>{{ item.itemName }}</td>
               <td>{{ item.category }}</td>
               <td>{{ item.price }}</td>
-              <td><img [src]="item.thumbnail" class="img-thumbnail" height="50" width="50" alt="{{ item.itemName }}"></td>
+              <td><img [src]="getThumbnailUrl(item.thumbnail)" class="img-thumbnail" height="50" width="50" alt="{{ item.itemName }}"></td>
               <td>
                   <button mat-icon-button color="accent" (click)="clickEditItem(item._id)" >
                       <mat-icon>edit</mat-icon>
@@ -43,7 +43,7 @@
 
           <ng-template #noItems>
               <tr>
-                  <td colSpan="5">No Items available</td>
+                  <td colSpan="5" >No Items available</td>
               </tr>
           </ng-template>
           </tbody>

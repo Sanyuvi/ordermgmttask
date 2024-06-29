@@ -33,12 +33,22 @@
 
                         </div>
                     </div>
-            <!-- Item Section -->
-            <div class="mb-4">
-                <div class="d-flex justify-content-between align-items-center">
-                    <h2>Item</h2>
-                    <button class="btn btn-light" (click)="addItem()">Add Item</button>
+        <!-- Item Section -->
+        <div class="mb-4">
+            <div class="d-flex justify-content-between align-items-center">
+                <h2>Items</h2>
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        Select Item
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <li *ngFor="let item of items">
+                            <a class="dropdown-item" href="#" (click)="addItem($event, item._id)">{{ item.itemName }}</a>
+                        </li>
+                    </ul>
                 </div>
+            </div>
                 <table class="table">
                     <thead>
                         <tr>
@@ -51,8 +61,8 @@
                     </thead>
                     <tbody>
                       <tr *ngFor="let item of newOrder.items; let i = index">
-                        <td><input type="text" [(ngModel)]="item.itemName" name="itemName{{i}}" class="form-control"></td>
-                        <td><input type="number" [(ngModel)]="item.unitPrice" name="unitPrice{{i}}" (input)="calculateAmount(item)" class="form-control"></td>
+                        <td><input type="text" [(ngModel)]="item.itemName" name="itemName{{i}}" class="form-control" readonly></td>
+                        <td><input type="number" [(ngModel)]="item.unitPrice" name="unitPrice{{i}}" class="form-control" readonly></td>
                         <td><input type="number" [(ngModel)]="item.quantity" name="quantity{{i}}" (input)="calculateAmount(item)" class="form-control"></td>
                         <td><input type="number" [(ngModel)]="item.amount" name="amount{{i}}" class="form-control" readonly></td>
                         <td>

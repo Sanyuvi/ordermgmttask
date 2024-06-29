@@ -15,7 +15,8 @@ import { Router } from '@angular/router';
   styleUrl: './item.component.css'
 })
 export class ItemComponent implements OnInit {
-  items: Items [] = [];
+  items: Items[] = [];
+  baseUrl: string = 'http://localhost:8087'; // Base URL for the backend
   constructor(private http:HttpClient,private router: Router) {
 
   }
@@ -25,6 +26,10 @@ export class ItemComponent implements OnInit {
       this.items = response;
       console.log(response);
     })
+  }
+
+  getThumbnailUrl(thumbnail: string): string {
+    return `${this.baseUrl}/Images/${thumbnail}`;
   }
 
   clickEditItem(id: String): void{
@@ -64,5 +69,5 @@ class Items {
   category!: string;
   price!: number;
   image: string | ArrayBuffer | null = null;
-  thumbnail: string | ArrayBuffer | null = null;
+  thumbnail!: string ;
 }

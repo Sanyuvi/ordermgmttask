@@ -17,7 +17,8 @@ export class UpdateItemComponent implements OnInit {
   itemForm: FormGroup;
   itemId!: string;
   item: any;
-  imagePreview: string | ArrayBuffer | null = null;
+  imagePreview!: string ;
+  baseUrl: string = 'http://localhost:8087'; // Base URL for the backend
 
   constructor(
     private fb: FormBuilder,
@@ -39,7 +40,7 @@ export class UpdateItemComponent implements OnInit {
   }
 
   loadItem(): void {
-    this.http.get<any>(`http://localhost:8087/api/items/${this.itemId}`).subscribe({
+    this.http.get<any>(`${this.baseUrl}/api/items/${this.itemId}`).subscribe({
       next : (data) => {
         this.item = data;
         this.itemForm.patchValue({
@@ -47,7 +48,8 @@ export class UpdateItemComponent implements OnInit {
           category: data.category,
           price: data.price
         });
-        this.imagePreview = data.image;
+        // Construct the full image URL
+        this.imagePreview = `${this.baseUrl}/Images/${data.image}`;
       },
       error : (error) => console.error('Error loading item', error)
   });
@@ -74,9 +76,10 @@ export class UpdateItemComponent implements OnInit {
       formData.append('image', this.itemForm.get('image')!.value);
     }
 
-    this.http.put(`http://localhost:8087/api/items/edititem/${this.itemId}`, formData).subscribe({
+    this.http.put(`${this.baseUrl}/api/items/edititem/${this.itemId}`, formData).subscribe({
       next: (response) => {
         console.log('Item updated successfully', response);
+        alert('Item updated successfully');
         this.router.navigate(['/items']);
       },
       error: (error) => {
