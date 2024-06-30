@@ -75,17 +75,19 @@ export class AddOrderComponentComponent implements OnInit {
         existingItem.quantity += 1;
         this.calculateAmount(existingItem);
       } else {
-        this.newOrder.items.push({
-          itemName: selectedItem.itemName,
-          unitPrice: selectedItem.price,
-          quantity: 1
-        });
+          const newOrderItem: OrderItem = {
+            itemName: selectedItem.itemName,
+            unitPrice: selectedItem.price,
+            quantity: 1
+          };
+          this.newOrder.items.push(newOrderItem);
+          this.calculateAmount(newOrderItem);
+        }
       }
+    } else {
+      alert('Cannot add more than 5 items.');
     }
-  } else {
-    alert('Cannot add more than 5 items.');
   }
-}
 
 
    removeItem(index: number): void {
