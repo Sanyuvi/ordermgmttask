@@ -37,22 +37,24 @@
         <div class="mb-4">
             <div class="d-flex justify-content-between align-items-center">
                 <h2>Items</h2>
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        Select Item
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li *ngFor="let item of items">
-                            <a class="dropdown-item" href="#" (click)="addItem($event, item._id)">{{ item.itemName }}</a>
-                        </li>
-                    </ul>
-                </div>
+                <mat-form-field appearance="fill" class="item-search">
+                  <mat-label>Search and Select Items</mat-label>
+                  <input matInput type="text" matInput [formControl]="itemControl" [matAutocomplete]="auto" />
+                  <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayItem" (optionSelected)="onItemSelected($event)">
+                    <mat-option *ngFor="let item of filteredItems | async" [value]="item">
+                      <div class="d-flex align-items-center">
+                        <img [src]="getThumbnailUrl(item.thumbnail)" alt="{{ item.itemName }}" class="thumbnail-img" />
+                        <span>{{ item.itemName }}</span>
+                      </div>
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
             </div>
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Item Name</th>
+                          <th>Image</th>
+                            <th>Item Name </th>
                             <th>Unit Price</th>
                             <th>Quantity</th>
                             <th>Amount</th>
@@ -61,10 +63,11 @@
                     </thead>
                     <tbody>
                       <tr *ngFor="let item of newOrder.items; let i = index">
-                        <td><input type="text" [(ngModel)]="item.itemName" name="itemName{{i}}" class="form-control" readonly></td>
-                        <td><input type="number" [(ngModel)]="item.unitPrice" name="unitPrice{{i}}" class="form-control" readonly></td>
-                        <td><input type="number" [(ngModel)]="item.quantity" name="quantity{{i}}" (input)="calculateAmount(item)" class="form-control"></td>
-                        <td><input type="number" [(ngModel)]="item.amount" name="amount{{i}}" class="form-control" readonly></td>
+                        <td><img [src]="getThumbnailUrl(item.thumbnail)" class="img-thumbnail" height="50" width="50" alt="{{ item.thumbnail }}"></td>
+                        <td>{{item.itemName}}</td>
+                        <td>{{item.unitPrice}}</td>
+                        <td><input type="number" [(ngModel)]="item.quantity" name="quantity{{i}}" (input)="calculateAmount(item)" class="form-control bg-danger border-danger" style="width: 100px;"></td>
+                        <td>{{item.amount}}</td>
                         <td>
                           <button type="button" (click)="removeItem(i)" mat-icon-button color="warn">
                             <mat-icon>delete</mat-icon>
@@ -93,4 +96,4 @@
                 </form>
         </div>
     </div>
-</div> -->
+</div>

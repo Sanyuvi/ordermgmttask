@@ -38,23 +38,25 @@
             <div class="mb-4">
                 <div class="d-flex justify-content-between align-items-center">
                   <h3>Edit Order - {{ data.orderId }}</h3>
-                    <div class="dropdown">
-                        <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            Select Item
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <li *ngFor="let item of availableItems">
-                                <a class="dropdown-item" href="#" (click)="addItem($event,item._id)">{{ item.itemName }}</a>
-                            </li>
-                        </ul>
-                    </div>
+                  <mat-form-field appearance="fill" class="item-search">
+                    <mat-label>Search and Select Items</mat-label>
+                    <input matInput type="text" matInput [formControl]="itemControl" [matAutocomplete]="auto" />
+                    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayItem" (optionSelected)="onItemSelected($event)">
+                      <mat-option *ngFor="let item of filteredItems | async" [value]="item">
+                        <div class="d-flex align-items-center">
+                          <img [src]="getThumbnailUrl(item.thumbnail)" alt="{{ item.itemName }}" class="thumbnail-img" />
+                          <span>{{ item.itemName }}</span>
+                        </div>
+                      </mat-option>
+                    </mat-autocomplete>
+                  </mat-form-field>
                 </div>
                 <table class="table">
                     <!-- Table Header -->
                     <thead>
                         <tr>
-                            <th>Item Name</th>
+
+                          <th>Item Name</th>
                             <th>Unit Price</th>
                             <th>Quantity</th>
                             <th>Amount</th>
@@ -64,20 +66,19 @@
                     <!-- Table Body -->
                     <tbody>
                         <tr *ngFor="let item of items; let index = index">
+
                             <td>
-                                <input type="text" class="form-control" [value]="item.itemName"
-                                    readonly />
+                                {{item.itemName}}
                             </td>
                             <td>
-                                <input type="number" class="form-control" [value]="item.unitPrice"
-                                    readonly />
+                              {{item.unitPrice}}
                             </td>
                             <td>
-                                <input type="number" class="form-control" [value]="item.quantity"
+                                <input type="number" class="form-control bg-danger border-danger" style="width: 100px;" [value]="item.quantity"
                                     (input)="handleInputChange(index, 'quantity', $event)" />
                             </td>
                             <td>
-                                <input type="text" class="form-control" [value]="item.amount" readonly />
+                              {{item.amount}}
                             </td>
                             <td>
                               <button type="button" (click)="removeItem(index)" mat-icon-button color="warn">

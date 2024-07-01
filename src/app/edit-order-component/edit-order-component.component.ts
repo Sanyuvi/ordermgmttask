@@ -2,10 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { SidebarComponent } from '../sidebar/sidebar.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
+import { MatFormFieldModule, MatLabel } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 
 
@@ -13,6 +18,7 @@ interface Item {
   _id: string;
   itemName: string;
   price: number;
+
 }
 
 interface Order {
@@ -23,6 +29,7 @@ interface Order {
 }
 
 interface OrderItem {
+
   itemName: string;
   unitPrice: number;
   quantity: number;
@@ -33,7 +40,7 @@ interface OrderItem {
 @Component({
   selector: 'app-edit-order-component',
   standalone: true,
-  imports: [SidebarComponent,FormsModule,CommonModule,MatButtonModule,MatIconModule],
+  imports: [SidebarComponent,FormsModule,CommonModule,MatButtonModule,MatIconModule,MatAutocompleteModule,ReactiveFormsModule,MatLabel,MatFormFieldModule,MatInputModule],
   templateUrl:'./edit-order-component.component.html',
   styleUrl: './edit-order-component.component.css'
 })
@@ -106,7 +113,8 @@ export class EditOrderComponentComponent implements OnInit {
             itemName: selectedItem.itemName,
             unitPrice: selectedItem.price,
             quantity: 1,
-            amount: selectedItem.price
+            amount: selectedItem.price,
+
           });
         }
         this.calculateTotalAmount();
@@ -114,6 +122,9 @@ export class EditOrderComponentComponent implements OnInit {
     } else {
       alert('Cannot add more than 5 items.');
     }
+  }
+  getThumbnailUrl(thumbnail: string): string {
+    return `${this.baseUrl}/Images/${thumbnail}`;
   }
 
   removeItem(index: number): void {
