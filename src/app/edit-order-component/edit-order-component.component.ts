@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { SidebarComponent } from '../sidebar/sidebar.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -18,7 +18,7 @@ interface Item {
   _id: string;
   itemName: string;
   price: number;
-
+  thumbnail: string;
 }
 
 interface Order {
@@ -29,7 +29,7 @@ interface Order {
 }
 
 interface OrderItem {
-
+  thumbnail: string;
   itemName: string;
   unitPrice: number;
   quantity: number;
@@ -50,9 +50,11 @@ export class EditOrderComponentComponent implements OnInit {
   customerName: string = '';
   items: OrderItem[] = [];
   totalAmount: number = 0;
-  data: any;
+  data: any ;
   availableItems: Item[] = [];
   baseUrl: string = 'http://localhost:8087'; // Base URL for the backend
+  itemControl = new FormControl();
+  filteredItems!: Observable<Item[]>;
 
   constructor(
     private route: ActivatedRoute,
@@ -64,6 +66,11 @@ export class EditOrderComponentComponent implements OnInit {
     this.orderId = this.route.snapshot.paramMap.get('id') || '';
     this.fetchOrder(this.orderId);
     this.fetchItems();
+
+    this.filteredItems = this.itemControl.valueChanges.pipe(
+      startWith(''),
+      map(value => typeof value === 'string' ? this._filter(value) : this.availableItems.slice())
+    );
   }
 
   fetchOrder(orderId: string): void {
@@ -92,6 +99,7 @@ export class EditOrderComponentComponent implements OnInit {
     this.http.get<Item[]>(`${this.baseUrl}/api/items`).subscribe({
       next: (response) => {
         this.availableItems = response;
+        this.itemControl.setValue('');
       },
       error: (error) => {
         console.error('Error fetching items:', error);
@@ -99,30 +107,36 @@ export class EditOrderComponentComponent implements OnInit {
     });
   }
 
-  addItem(event: Event, itemId: string): void {
-    event.preventDefault();
-    if (this.items.length < 5) {
-      const selectedItem = this.availableItems.find(item => item._id === itemId);
-      if (selectedItem) {
-        const existingItem = this.items.find(item => item.itemName === selectedItem.itemName);
-        if (existingItem) {
-          existingItem.quantity += 1;
-          this.calculateAmount(existingItem);
-        } else {
-          this.items.push({
-            itemName: selectedItem.itemName,
-            unitPrice: selectedItem.price,
-            quantity: 1,
-            amount: selectedItem.price,
-
-          });
-        }
-        this.calculateTotalAmount();
-      }
-    } else {
-      alert('Cannot add more than 5 items.');
-    }
+  private _filter(value: string): Item[] {
+    const filterValue = value.toLowerCase();
+    return this.availableItems.filter(item => item.itemName.toLowerCase().includes(filterValue));
   }
+
+  displayItem(item: Item): string {
+    return item && item.itemName ? item.itemName : '';
+  }
+
+  onItemSelected(event: any): void {
+    const selectedItem: Item = event.option.value;
+    const existingItem = this.items.find(item => item.itemName === selectedItem.itemName);
+
+    if (existingItem) {
+      existingItem.quantity += 1;
+      this.calculateAmount(existingItem);
+    } else {
+      const newOrderItem: OrderItem = {
+        itemName: selectedItem.itemName,
+        unitPrice: selectedItem.price,
+        quantity: 1,
+        thumbnail: selectedItem.thumbnail
+      };
+      this.items.push(newOrderItem);
+      this.calculateAmount(newOrderItem);
+    }
+
+    this.itemControl.setValue('');
+  }
+
   getThumbnailUrl(thumbnail: string): string {
     return `${this.baseUrl}/Images/${thumbnail}`;
   }
