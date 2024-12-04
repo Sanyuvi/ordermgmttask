@@ -16,7 +16,7 @@ import { Router } from '@angular/router';
 })
 export class ItemComponent implements OnInit {
   items: Items[] = [];
-  baseUrl: string = 'http://localhost:8087'; // Base URL for the backend
+  baseUrl: string = 'https://ordermgbackend.onrender.com'; // Base URL for the backend
   constructor(private http:HttpClient,private router: Router) {
 
   }
@@ -37,12 +37,12 @@ export class ItemComponent implements OnInit {
   }
 
   getItems(){
-return this.http.get<Items[]>('http://localhost:8087/api/items')
+return this.http.get<Items[]>(`${this.baseUrl}/api/items`)
   }
 
   deleteItem(id: string): void {
     if (confirm('Are you sure you want to delete this item?')) {
-      this.http.delete(`http://localhost:8087/api/items/deleteitem/${id}`).subscribe({
+      this.http.delete(`${this.baseUrl}/api/items/deleteitem/${id}`).subscribe({
         next: (response) => {
           this.items = this.items.filter((item) => item._id !== id);
           alert('Item deleted successfully');

@@ -16,6 +16,8 @@ import { Router } from '@angular/router';
 })
 export class OrderComponent implements OnInit {
   orders: Orders[] = [];
+  baseUrl: string = 'https://ordermgbackend.onrender.com'; // Base URL for the backend
+
   constructor(private http:HttpClient,private router: Router) {
 
   }
@@ -28,11 +30,11 @@ export class OrderComponent implements OnInit {
   }
 
   getOrders() {
-    return this.http.get<Orders[]>('https://ordermgbackend.onrender.com/api/orders')
+    return this.http.get<Orders[]>(`${this.baseUrl}/api/orders`)
   }
 
   deleteOrders(orderId: string): void {
-     this.http.delete(`https://ordermgbackend.onrender.com/api/orders/deleteorder/${orderId}`).subscribe(
+     this.http.delete(`${this.baseUrl}/api/orders/deleteorder/${orderId}`).subscribe(
       ()=>{
         this.orders = this.orders.filter((order) => order._id !== orderId);
         alert("order deleted successfully")

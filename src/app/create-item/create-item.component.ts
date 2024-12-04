@@ -19,6 +19,7 @@ export class CreateItemComponent {
   itemForm: FormGroup;
   selectedFile: File | null = null;
   previewUrl: string | ArrayBuffer | null = null;
+  baseUrl: string = 'https://ordermgbackend.onrender.com'; // Base URL for the backend
 
   constructor(private fb: FormBuilder, private http: HttpClient, private router: Router) {
     this.itemForm = this.fb.group({
@@ -49,7 +50,7 @@ export class CreateItemComponent {
       formData.append('price', this.itemForm.get('price')?.value);
       formData.append('image', this.selectedFile);
 
-      this.http.post('http://localhost:8087/api/items/createitem', formData).pipe(
+      this.http.post(`${this.baseUrl}/api/items/createitem`, formData).pipe(
         tap((response) => {
           console.log('Item saved successfully', response);
           alert('Item added successfully');

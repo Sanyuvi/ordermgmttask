@@ -18,7 +18,7 @@ export class UpdateItemComponent implements OnInit {
   itemId!: string;
   item: any;
   imagePreview!: string ;
-  baseUrl: string = 'http://localhost:8087'; // Base URL for the backend
+  baseUrl: string = 'https://ordermgbackend.onrender.com'; // Base URL for the backend
 
   constructor(
     private fb: FormBuilder,

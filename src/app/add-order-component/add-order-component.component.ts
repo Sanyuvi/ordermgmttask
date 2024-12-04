@@ -45,7 +45,7 @@ export class AddOrderComponentComponent implements OnInit {
   items: Item[] = [];
   
   orders: Order[] = [];
-  baseUrl: string = 'http://localhost:8087'; // Base URL for the backend
+  baseUrl: string = 'https://ordermgbackend.onrender.com'; // Base URL for the backend
    constructor(private http: HttpClient, private router: Router) { }
 
    ngOnInit(): void {
@@ -111,7 +111,7 @@ export class AddOrderComponentComponent implements OnInit {
       }
     }
 
-    this.http.post<{ message: string, order: Order }>(`https://ordermgbackend.onrender.com/api/orders/neworder`, this.newOrder)
+    this.http.post<{ message: string, order: Order }>(`${this.baseUrl}/api/orders/neworder`, this.newOrder)
       .subscribe({
         next: (response) => {
           alert('New order added successfully');

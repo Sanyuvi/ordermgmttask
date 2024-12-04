@@ -45,7 +45,7 @@ export class EditOrderComponentComponent implements OnInit {
   totalAmount: number = 0;
   data: any;
   availableItems: Item[] = [];
-  baseUrl: string = 'http://localhost:8087'; // Base URL for the backend
+  baseUrl: string = 'https://ordermgbackend.onrender.com'; // Base URL for the backend
 
   constructor(
     private route: ActivatedRoute,
@@ -60,7 +60,7 @@ export class EditOrderComponentComponent implements OnInit {
   }
 
   fetchOrder(orderId: string): void {
-    this.http.get<Order>(`https://ordermgbackend.onrender.com/api/orders/${orderId}`).subscribe({
+    this.http.get<Order>(`${this.baseUrl}/api/orders/${orderId}`).subscribe({
       next: (order) => {
         this.data = order;
         if (order.orderDate instanceof Date) {
@@ -156,7 +156,7 @@ export class EditOrderComponentComponent implements OnInit {
       }
     }
 
-    this.http.put(`https://ordermgbackend.onrender.com/api/orders/editorder/${this.orderId}`, updatedOrder).subscribe({
+    this.http.put(`${this.baseUrl}/api/orders/editorder/${this.orderId}`, updatedOrder).subscribe({
       next: (res: any) => {
         console.log(res);
 
